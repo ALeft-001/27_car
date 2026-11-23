@@ -25,7 +25,13 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "chassis.h"
+#include "motor.h"
+#include "electromotor.h"
+#include "board.h"
+#include "board_Protocol.h"
+#include "control_task.h"
+#include "board_task.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -95,7 +101,10 @@ void MX_FREERTOS_Init(void); /* (MISRA C 2004 rule 8.1) */
   */
 void MX_FREERTOS_Init(void) {
   /* USER CODE BEGIN Init */
-
+  EM_Init();
+  Motor_Init();
+  Chassis_Init();
+  Board_Init();
   /* USER CODE END Init */
 
   /* USER CODE BEGIN RTOS_MUTEX */
@@ -165,11 +174,7 @@ void StartDefaultTask(void *argument)
 void StartTaskControl(void *argument)
 {
   /* USER CODE BEGIN StartTaskControl */
-  /* Infinite loop */
-  for(;;)
-  {
-    osDelay(1);
-  }
+  Task_Control();
   /* USER CODE END StartTaskControl */
 }
 
@@ -186,7 +191,7 @@ void StartTaskComm(void *argument)
   /* Infinite loop */
   for(;;)
   {
-    osDelay(1);
+    osDelay(10);
   }
   /* USER CODE END StartTaskComm */
 }
@@ -201,11 +206,7 @@ void StartTaskComm(void *argument)
 void StartTaskReport(void *argument)
 {
   /* USER CODE BEGIN StartTaskReport */
-  /* Infinite loop */
-  for(;;)
-  {
-    osDelay(1);
-  }
+  Task_Board();
   /* USER CODE END StartTaskReport */
 }
 
